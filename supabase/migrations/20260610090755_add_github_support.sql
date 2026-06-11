@@ -53,13 +53,16 @@ DO $$ BEGIN
   END IF;
 END $$;
 
+-- Enable pgcrypto for gen_random_bytes
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 -- Installations table
 CREATE TABLE IF NOT EXISTS installations (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   github_owner text NOT NULL,
   github_repo text NOT NULL,
   webhook_id text,
-  webhook_secret text NOT NULL DEFAULT encode(gen_random_bytes(32), 'hex'),
+  webhook_secret text NOT NULL DEFAULT md5(random()::text || clock_timestamp()::text),
   github_token_encrypted text,
   is_active boolean DEFAULT true,
   events_received integer DEFAULT 0,

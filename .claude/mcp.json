@@ -1,8 +1,12 @@
 {
   "mcpServers": {
     "GitLab": {
-      "type": "http",
-      "url": "https://gitlab.com/api/v4/mcp"
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gitlab"],
+      "env": {
+        "GITLAB_PERSONAL_ACCESS_TOKEN": "glpat-6sdRknW9XPqSLCS-50PhamM6MQpvOjEKdTpuOTZ6aw8.01.171uoxozy",
+        "GITLAB_API_URL": "https://gitlab.com/api/v4"
+      }
     }
   }
 }

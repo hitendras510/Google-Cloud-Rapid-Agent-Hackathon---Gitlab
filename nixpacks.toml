@@ -1,0 +1,17 @@
+[phases.setup]
+nixPkgs = ["python311", "nodejs_20", "npm-9_x"]
+
+[phases.install]
+cmds = [
+  "npm ci --prefer-offline --no-audit",
+  "pip install -r requirements.txt"
+]
+
+[phases.build]
+cmds = [
+  "npm run build",
+  "mkdir -p static && cp -r dist/* static/"
+]
+
+[start]
+cmd = "uvicorn webhook_server:app --host 0.0.0.0 --port $PORT --workers 1"

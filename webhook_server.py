@@ -116,17 +116,12 @@ def _load_all_secrets() -> None:
 
 
 # ── ADK setup ─────────────────────────────────────────────────────────────────
-
-from google.adk.runners import InMemoryRunner
-from google.adk.sessions import InMemorySessionService
-from google.genai import types as genai_types
-
-from adk_agents.agent import build_root_agent
-
+# Imports are deferred to _init_agent() to avoid top-level import failures
+# on Railway if google-adk has transient install issues.
 
 class AgentPool:
     """Holds a single warm ADK InMemoryRunner shared across all requests."""
-    runner: Optional[InMemoryRunner] = None
+    runner = None
     startup_time: float = 0.0
 
 
@@ -134,7 +129,10 @@ _pool = AgentPool()
 
 
 def _init_agent() -> None:
-    """Build the ADK agent once at startup."""
+    """Build the ADK agent once at startup (imports deferred here)."""
+    from google.adk.runners import InMemoryRunner  # noqa: PLC0415
+    from adk_agents.agent import build_root_agent  # noqa: PLC0415
+
     t0 = time.time()
     root_agent = build_root_agent()
     _pool.runner = InMemoryRunner(agent=root_agent)
@@ -359,6 +357,8 @@ async def run_pipeline_guardian(
         f"validate it, and take action (create MR if confidence >= 0.85, "
         f"notify author if 0.60-0.85, escalate otherwise)."
     )
+
+    from google.genai import types as genai_types  # noqa: PLC0415
 
     new_message = genai_types.Content(
         role="user",

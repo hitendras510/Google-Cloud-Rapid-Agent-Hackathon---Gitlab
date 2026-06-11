@@ -13,9 +13,14 @@ import requests
 # ─── Shared HTTP helper ───────────────────────────────────────────────────────
 
 def _supabase_headers() -> dict[str, str]:
+    # Fall back to anon key if service role key is not set
+    key = (
+        os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        or os.environ.get("SUPABASE_ANON_KEY", "")
+    )
     return {
-        "Authorization": f"Bearer {os.environ['SUPABASE_SERVICE_ROLE_KEY']}",
-        "apikey": os.environ["SUPABASE_SERVICE_ROLE_KEY"],
+        "Authorization": f"Bearer {key}",
+        "apikey": key,
         "Content-Type": "application/json",
     }
 

@@ -6,6 +6,7 @@ import TraceViewer from './pages/TraceViewer';
 import CostDashboard from './pages/CostDashboard';
 import SettingsPage from './pages/Settings';
 import GitLabSetup from './pages/GitLabSetup';
+import GitHubSetup from './pages/GitHubSetup';
 import Architecture from './pages/Architecture';
 import TestingGuide from './pages/TestingGuide';
 

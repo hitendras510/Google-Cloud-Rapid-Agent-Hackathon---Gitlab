@@ -1,0 +1,41 @@
+.dockerignore
+# ── Node / Vite frontend (not needed in the Python Cloud Run image) ────────────
+node_modules/
+dist/
+.vite/
+*.log
+
+# ── Git ────────────────────────────────────────────────────────────────────────
+.git/
+.gitignore
+
+# ── Secrets (NEVER include in Docker image) ────────────────────────────────────
+.env
+adk_agents/.env
+*.env
+**/.env
+
+# ── Development artifacts ─────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── Supabase local dev (not needed in container) ──────────────────────────────
+supabase/.temp/
+supabase/.branches/
+
+# ── IDE / OS artifacts ────────────────────────────────────────────────────────
+.cursor/
+.bolt/
+.claude/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ── Docs / CI config (not needed at runtime) ──────────────────────────────────
+*.md
